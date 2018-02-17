@@ -1,8 +1,11 @@
 package com.zapnet.zapnet.Schedule;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,8 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 import com.zapnet.zapnet.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,15 +33,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -82,17 +82,46 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_schedule) {
 
-        } else if (id == R.id.nav_slideshow) {
+                String dateString = "02/18/2018";
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                Date convertedDate = new Date();
+                try {
+                    convertedDate = dateFormat.parse(dateString);
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
-        } else if (id == R.id.nav_manage) {
+                CaldroidFragment caldroidFragment = new CaldroidFragment();
+                Bundle args = new Bundle();
+                Calendar cal = Calendar.getInstance();
+                args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+                args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+                caldroidFragment.setArguments(args);
 
-        } else if (id == R.id.nav_share) {
+                ColorDrawable blue = new ColorDrawable(getResources().getColor(R.color.caldroid_holo_blue_light));
+                ColorDrawable green = new ColorDrawable(Color.GREEN);
+                caldroidFragment.setBackgroundDrawableForDate(green, convertedDate);
 
-        } else if (id == R.id.nav_send) {
+
+                final CaldroidListener listener = new CaldroidListener() {
+
+                    @Override
+                    public void onSelectDate(Date date, View view) {
+                        Log.d("Calendar", date.toString());
+                    }
+                };
+
+            caldroidFragment.setCaldroidListener(listener);
+
+                android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+                t.replace(R.id.home_fragLayout, caldroidFragment);
+                t.commit();
+
+
+        }  else if (id == R.id.nav_share) {
 
         }
 
