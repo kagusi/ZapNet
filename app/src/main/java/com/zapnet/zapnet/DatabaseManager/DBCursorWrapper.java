@@ -14,7 +14,7 @@ public class DBCursorWrapper extends CursorWrapper {
         this.cursor = cursor;
     }
 
-    public Event getAccount() {
+    public Event getEvent() {
         String title = cursor.getString(cursor.getColumnIndex(DBSchema.EventTable.Cols.TITLE));
         String description = cursor.getString(cursor.getColumnIndex(DBSchema.EventTable.Cols.DESCRIPTION));
         String location = cursor.getString(cursor.getColumnIndex(DBSchema.EventTable.Cols.LOCATION));
@@ -26,6 +26,6 @@ public class DBCursorWrapper extends CursorWrapper {
         String longitude = cursor.getString(cursor.getColumnIndex(DBSchema.EventTable.Cols.LONGITUDE));
 
 
-        return new Event(startTime, endTime, title, description, location, date);
+        return new Event(startTime, endTime, title, description, location, date, latitude, longitude);
     }
 }

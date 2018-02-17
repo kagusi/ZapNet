@@ -6,7 +6,7 @@ package com.zapnet.zapnet.DatabaseManager;
 
 public class DBSchema {
     public static final int VERSION = 1;
-    public static final String DATABASE_NAME = "jetshopper_database.db";
+    public static final String DATABASE_NAME = "zapnet_database.db";
 
     public static final class EventTable {
         public static final String NAME = "event";

@@ -16,7 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + DBSchema.EventTable.NAME
-                + "(accountid integer primary key autoincrement, "
+                + "(eventid integer primary key autoincrement, "
                 + DBSchema.EventTable.Cols.TITLE + ", "
                 + DBSchema.EventTable.Cols.DESCRIPTION + ", "
                 + DBSchema.EventTable.Cols.LOCATION + ", "

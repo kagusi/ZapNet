@@ -1,5 +1,6 @@
 package com.zapnet.zapnet.Schedule;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
+import com.zapnet.zapnet.MainActivity;
 import com.zapnet.zapnet.R;
 
 import java.text.ParseException;
@@ -42,6 +46,8 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        showCalendar();
     }
 
     @Override
@@ -70,7 +76,8 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(HomeActivity.this, EventActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,41 +91,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_schedule) {
 
-                String dateString = "02/18/2018";
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                Date convertedDate = new Date();
-                try {
-                    convertedDate = dateFormat.parse(dateString);
-                } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
 
-                CaldroidFragment caldroidFragment = new CaldroidFragment();
-                Bundle args = new Bundle();
-                Calendar cal = Calendar.getInstance();
-                args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-                args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
-                caldroidFragment.setArguments(args);
-
-                ColorDrawable blue = new ColorDrawable(getResources().getColor(R.color.caldroid_holo_blue_light));
-                ColorDrawable green = new ColorDrawable(Color.GREEN);
-                caldroidFragment.setBackgroundDrawableForDate(green, convertedDate);
-
-
-                final CaldroidListener listener = new CaldroidListener() {
-
-                    @Override
-                    public void onSelectDate(Date date, View view) {
-                        Log.d("Calendar", date.toString());
-                    }
-                };
-
-            caldroidFragment.setCaldroidListener(listener);
-
-                android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-                t.replace(R.id.home_fragLayout, caldroidFragment);
-                t.commit();
 
 
         }  else if (id == R.id.nav_share) {
@@ -128,5 +101,54 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    final CaldroidListener listener = new CaldroidListener() {
+
+        @Override
+        public void onSelectDate(Date date, View view) {
+            Log.d("Calendar", date.toString());
+            removeFrag(date);
+        }
+    };
+
+    public void removeFrag(Date date){
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(HomeActivity.this, EventActivity.class);
+        intent.putExtra("Date", date);
+        startActivity(intent);
+
+    }
+
+    public void showCalendar(){
+
+        String dateString = "02/18/2018";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+
+        ColorDrawable blue = new ColorDrawable(getResources().getColor(R.color.caldroid_holo_blue_light));
+        ColorDrawable green = new ColorDrawable(Color.GREEN);
+        caldroidFragment.setBackgroundDrawableForDate(green, convertedDate);
+
+        caldroidFragment.setCaldroidListener(listener);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.home_fragLayout, caldroidFragment)
+                .commit();
+
     }
 }

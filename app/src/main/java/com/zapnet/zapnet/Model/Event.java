@@ -19,13 +19,16 @@ public class Event {
     private String longitude;
     //private Coordinate coordinates;
 
-    public Event(String startTime, String endTime, String title, String desription, String location, String date) {
+    public Event(String startTime, String endTime, String title,
+                 String desription, String location, String date, String latitude, String longitude) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.desription = desription;
         this.location = location;
         this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
 
     }
     /*
