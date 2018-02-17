@@ -1,25 +1,65 @@
 package com.zapnet.zapnet.Model;
+import java.util.*;
 
 /**
  * Created by theny on 2/16/2018.
  */
 
 public class Event {
-    private String startTime;
-    private String endTime;
+
     private String title;
     private String desription;
     private String location;
-    private double latitude;
-    private double longitute;
 
-    public Event(String startTime, String endTime, String title, String desription, String location) {
+    private String startTime;
+    private String endTime;
+
+    private String date;
+    private String latitude;
+    private String longitude;
+    //private Coordinate coordinates;
+
+    public Event(String startTime, String endTime, String title, String desription, String location, String date) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = title;
         this.desription = desription;
         this.location = location;
+        this.date = date;
+
     }
+    /*
+    public String validEvent(ArrayList<Event> eventList){
+       for(Event e : eventList){
+           String check = this.checkForOverlap(e);
+           if(!check.equals("valid")){
+               return check;
+           }
+       }
+       return "valid";
+    }
+
+    //check if two events on the same day overlap in time
+
+    public String checkForOverlap(Event e){
+        if((this.startTime).earlier(e.startTime)){
+            if(this.endTime.earlier(e.startTime)){
+                return "valid";
+            }
+            else{
+                return "This event conflicts with " + e.title;
+            }
+        }
+        else{
+            if(e.endTime.earlier(this.startTime)){
+                return "valid";
+            }
+            else{
+                return "This event conflicts with " + e.title;
+            }
+        }
+    }
+    */
 
     public String getStartTime() {
         return startTime;
@@ -61,19 +101,37 @@ public class Event {
         this.location = location;
     }
 
-    public double getLatitude() {
+    /*
+    public Coordinate getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinate coordinates) {
+        this.coordinates = new Coordinate(coordinates.getLatitude(), coordinates.getLatitude());
+    }
+    */
+
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitute() {
-        return longitute;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setLongitute(double longitute) {
-        this.longitute = longitute;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

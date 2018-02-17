@@ -14,6 +14,35 @@ public class Time {
         this.minute = minute;
         this.apm = apm;
     }
+    //checks if the current object is earlier than the passed parameter
+    public boolean earlier(Time t){
+        if(t.apm.equals("am")){
+            if(this.apm.equals("am")){
+                if(t.hour == this.hour){
+                    return this.minute < t.minute;
+                }
+                else{
+                    return this.hour < t.hour;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(this.apm.equals("pm")){
+                if(t.hour == this.hour){
+                    return this.minute < t.minute;
+                }
+                else{
+                    return this.hour < t.hour;
+                }
+            }
+            else{
+                return true;
+            }
+        }
+    }
     public int getHour(){
         return this.hour;
     }
